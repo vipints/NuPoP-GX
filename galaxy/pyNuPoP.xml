@@ -1,0 +1,138 @@
+<tool id="py_nupop_f" name="NuPoP" version="0.1">
+  <description>Predict nucleosome positioning for DNA sequences of any length</description>
+  <command interpreter="python">NuPoP.py
+     $fasta_input
+     $linker_length
+     $order_mm
+     $linker_update
+     $species
+	 #if $types.format_type == "text":
+		 text $np_text $np_text.extra_files_path
+	 #elif $types.format_type == "wig":
+		 wig $np_wig $np_wig.extra_files_path
+	 #end if
+     > $Log_File
+  </command>
+  <inputs>
+     <param format="fasta" name="fasta_input" type="data" label="DNA sequence" help="The FASTA file contains DNA sequence." />
+
+     <param name="linker_length" type="integer" size="4" value="100" label="Maximum length of Linker (bp)" help="An integer for the maximum allowable linker DNA length. Typical values are between 100 and 500."/>
+
+     <param name="order_mm" type="select" label="Order of Markov model" help="Represents the first or fourth order Markov chain.">
+          <option value="1" selected="true">1-HMM</option>
+          <option value="4" selected="true">4-HMM</option>
+     </param>
+
+     <param name="linker_update" type="integer" size="4" value="0" label="Linker length distribution update times" help="An integer 0-5. If a sequence is shorter than 200K, this option is coerced as ”0” as sequence may be not long enough to provide meaningful estimate of the distribution."/>
+
+     <param name="species" type="select" label="Species" help="Select species according to the source sequence. If your intented species is not listed, choose a species on the list that is evolutionary closest to the one under prediction.">
+          <option value="1" selected="true">Homo sapiens</option>
+          <option value="2">Mus musculus</option>
+          <option value="3">Rattus norvegicus</option>
+          <option value="4">Danio rerio</option>
+          <option value="5">Drosophila melanogaster</option>
+          <option value="6">Caenorhabditis elegans</option>
+          <option value="7">Saccharomyces cerevisiae</option>
+          <option value="8">Candida albicans</option>
+          <option value="9">Schizosaccharomyces pombe</option>
+          <option value="10">Arabidopsis thaliana</option>
+          <option value="11">Zea mays</option>
+     </param>
+
+	<conditional name="types">
+	 	<param name="format_type" type="select" label="Output format" help="See about format section.">
+       		<option value="text">Text format</option>
+     		<option value="wig">Wiggle fixedStep format</option>
+	 	</param>
+		<when value="text"></when>
+		<when value="wig"></when>
+	</conditional>
+
+  </inputs>
+  
+	<outputs>
+    <data format="txt" name="np_text" label="NuPoP prediction in text format" >
+		<filter>types['format_type'] == "text"</filter>
+	 </data>
+    <data format="wig" name="np_wig" label="NuPoP prediction in wiggle format" >
+		<filter>types['format_type'] == "wig"</filter>
+	 </data>
+    <data format="txt" name="Log_File" label="NuPoP Log File"/>
+  </outputs>
+
+	<tests>
+	<test>
+		<param name='fasta_input' value='test_nupop_chr1.fa' ftype='fasta' />
+		<param name='linker_length' value='100' />
+		<param name='order_mm' value='1' />
+		<param name='linker_update' value='0' />
+		<param name='species' value='1' />
+		<param name='format_type' value='text' />
+		<param name='format_type' value='wig' />
+		<param name='np_text' file='test_nupop_pred_chr1.txt' ftype='txt' />
+		<param name='np_wig' file='test_nupop_pred_chr1.wig' ftype='wig' />
+	</test>
+</tests>
+
+  <help>
+
+
+**What it does**
+
+NuPoP is a software tool for Nucleosome Positioning Prediction. For more information on NuPoP and the methods, please refer to `here`__
+ .. __: http://nucleosome.stats.northwestern.edu/ 
+
+------
+
+**Example**
+
+- DNA sequence in FASTA format::
+	
+	>CHR1
+	CCCTAAACCCTAAACCCTAAACCCTAAACCTCTGAATCCTTAATCCCTAAATCCCTAAAT
+	CTTTAAATCCTACATCCATGAATCCCTAAATACCTAATTCCCTAAACCCGAAACCGGTTT
+	CTCTGGTTGAAAATCATTGTGTATATAATGATAATTTTATCGTTTTTATGTAATTGCTTA
+	TTGTTGTGTGTAGATTTTTTAAAAATATCATTTGAGGTCAATACAAATCCTATTTCTTGT
+	GGTTTTCTTTCCTTCACTTAGCTATGGATGGTTTATCTTCATTTGTTATATTGGATACAA
+
+- Prediction result in text format::
+
+	Chromosome/Contig = CHR1
+	Position  P-start Occup  N/L  Affinity
+	1  0.000   0.000   0    2.843
+	2  0.032   0.032   0    2.839
+	3  0.840   0.872   1    2.815
+	4  0.001   0.872   1    2.814
+
+- or in Wiggle fixedStep format::
+
+	track type=wiggle_0 name="Nucleosome_Position_Prediction" description="Genome source Homo sapiens"
+	fixedStep chrom=CHR1 start=1 step=1 span=1
+	0.000
+	0.032
+	0.872
+	0.872
+
+------
+
+**About formats** 
+
+**FASTA format** A sequence in FASTA format begins with a single-line
+description, followed by lines of sequence data. The description line
+is distinguished from the sequence data by a greater-than (">") symbol
+in the first column. The token until the first space or the end of the 
+line is used as identifier for the sequence. The remainer of the 
+description line will be ignored.
+
+**Prediction result format** The prediction results including nucleosome 
+occupancy score, Viterbi prediction and nucleosome affinity score with 
+the corresponding position in the genome sequence.
+
+**Wiggle fixedStep format** The data is introduced by a line beginning 
+with the keyword "fixedStep", and the arguments "chrom", "start", "step" 
+and "span". The arguments are indicating the chromosome on which the 
+features are located, starting position of the first feature, the spacing
+between each feature and the width of each feature in base pair respectively.
+
+</help>
+</tool>
