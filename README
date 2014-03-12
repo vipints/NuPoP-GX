@@ -1,0 +1,54 @@
+
+Introduction 
+============
+
+NuPoP is a software tool for Nucleosome Positioning Prediction. 
+For more information on NuPoP and the methods - http://nucleosome.stats.northwestern.edu/
+
+
+What it does
+============
+
+    [a] It can handle multiple fasta sequence in a query file to predict nucleosome occupancy.
+
+    [b] Multiple result file format, Plain text based result and Wiggle fixedStep format based on users request. 
+    
+    [c] Produce binary files of nucleosome occupency score and corresponding positions in the genomic sequence. 
+        The binary file path can be found in NuPoP Log file.
+
+
+Deployment
+==========
+
+    [a] Clone this repository to your local deployment station. 
+
+    [b] Execute the perl script "changePath.pl" to set up the absolute profile file path based on your local station. 
+        "perl changePath.pl"
+
+    [c] Please make sure that Biopython is installed in your local station.  
+
+    [d] Move the sample files from test-data folder to galaxy test-data folder.
+
+
+Contents
+========
+
+    src 
+    
+    [a] Fortran core program. 
+
+    galaxy 
+
+    [a] Pythonic interface to the core program.
+
+    [b] Tool configuration file.
+
+    test-data 
+
+    [a] Test files for running functional tests. 
+
+
+Contact
+=======
+    
+    Please let me know if you find any difficulty to integrate into Galaxy. I can be reached at vipin <at> cbio.mskcc.org
