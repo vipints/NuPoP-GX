@@ -1,6 +1,6 @@
-<tool id="py_nupop_f" name="NuPoP" version="0.1">
+<tool id="py_nupop_f" name="NuPoP" version="0.2">
   <description>Predict nucleosome positioning for DNA sequences of any length</description>
-  <command interpreter="python">NuPoP.py
+  <command interpreter="python">pyNuPoP.py
      $fasta_input
      $linker_length
      $order_mm
@@ -14,7 +14,7 @@
      > $Log_File
   </command>
   <inputs>
-     <param format="fasta" name="fasta_input" type="data" label="DNA sequence" help="The FASTA file contains DNA sequence." />
+     <param format="fasta" name="fasta_input" type="data" label="DNA sequence" help="The FASTA file contains genome sequence." />
 
      <param name="linker_length" type="integer" size="4" value="100" label="Maximum length of Linker (bp)" help="An integer for the maximum allowable linker DNA length. Typical values are between 100 and 500."/>
 
@@ -51,13 +51,13 @@
   </inputs>
   
 	<outputs>
-    <data format="txt" name="np_text" label="NuPoP prediction in text format" >
+    <data format="txt" name="np_text" label="${tool.name} on ${on_string}: Nucleosome_Position_Prediction" >
 		<filter>types['format_type'] == "text"</filter>
 	 </data>
-    <data format="wig" name="np_wig" label="NuPoP prediction in wiggle format" >
+    <data format="wig" name="np_wig" label="${tool.name} on ${on_string}: Nucleosome_Position_Prediction" >
 		<filter>types['format_type'] == "wig"</filter>
 	 </data>
-    <data format="txt" name="Log_File" label="NuPoP Log File"/>
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: Log_File"/>
   </outputs>
 
 	<tests>
@@ -77,10 +77,13 @@
   <help>
 
 
+.. class:: infomark
+
 **What it does**
 
-NuPoP is a software tool for Nucleosome Positioning Prediction. For more information on NuPoP and the methods, please refer to `here`__
- .. __: http://nucleosome.stats.northwestern.edu/ 
+NuPoP_ is a software tool for Nucleosome Positioning Prediction. 
+
+.. _NuPoP: http://nucleosome.stats.northwestern.edu/ 
 
 ------
 
@@ -106,7 +109,7 @@ NuPoP is a software tool for Nucleosome Positioning Prediction. For more informa
 
 - or in Wiggle fixedStep format::
 
-	track type=wiggle_0 name="Nucleosome_Position_Prediction" description="Genome source Homo sapiens"
+	track type=wiggle_0 name="Nucleosome_Position_Score" description="Genome source"
 	fixedStep chrom=CHR1 start=1 step=1 span=1
 	0.000
 	0.032
@@ -114,6 +117,8 @@ NuPoP is a software tool for Nucleosome Positioning Prediction. For more informa
 	0.872
 
 ------
+
+.. class:: infomark
 
 **About formats** 
 
@@ -133,6 +138,10 @@ with the keyword "fixedStep", and the arguments "chrom", "start", "step"
 and "span". The arguments are indicating the chromosome on which the 
 features are located, starting position of the first feature, the spacing
 between each feature and the width of each feature in base pair respectively.
+
+------
+
+NuPoP-GX Wrapper Version 0.2 (Mar 2014)
 
 </help>
 </tool>
