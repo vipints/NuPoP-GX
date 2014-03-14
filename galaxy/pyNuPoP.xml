@@ -118,6 +118,13 @@ NuPoP_ is a software tool for Nucleosome Positioning Prediction.
 
 ------
 
+**Reference**
+
+    [1] Xi, L., Fondufe-Mittendor, Y., Xia, L., Flatow, J., Widom, J. and Wang, J.-P., 
+    Predicting nucleosome positioning using a duration Hidden Markov Model, BMC Bioinformatics, 2010.
+
+------
+
 .. class:: infomark
 
 **About formats** 
