@@ -1,8 +1,10 @@
 #!/usr/local/bin/perl
-#use strict;
+#
+# The program to set up the profile db path
+# 
+
 use Cwd;
 
-#system('cp Npred.f90.back Npred.f90');
 my $cwd=getcwd();
 open (OLD,"Npred.f90");
 my @lines=<OLD>;
