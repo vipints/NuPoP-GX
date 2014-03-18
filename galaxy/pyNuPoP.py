@@ -83,6 +83,8 @@ def __main__():
 	print 'Step:2 Processing FASTA file\n'
 	fasta_handle = open(fasta_file, "rU")
 
+    # binary files are another form of result format 
+
 	for record in SeqIO.parse(fasta_handle, "fasta"):
 
 		print 'Sequence identifier: %s' % record.id 
@@ -102,7 +104,7 @@ def __main__():
         
 		# clean up the contig based fasta and npred result file 
 	fasta_handle.close()	
-	pred_file_handle.close()
+    pred_file_handle.close()
 
 	etime = time.asctime( time.localtime(time.time()) )
 	print '----------------------------------------'
