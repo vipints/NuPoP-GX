@@ -42,10 +42,12 @@
 	<conditional name="types">
 	 	<param name="format_type" type="select" label="Output format" help="See about format section.">
        		<option value="text">Text format</option>
+       		<option value="binary">Binary format</option>
      		<option value="wig">Wiggle fixedStep format</option>
 	 	</param>
 		<when value="text"></when>
 		<when value="wig"></when>
+		<when value="binary"></when>
 	</conditional>
 
   </inputs>
@@ -56,6 +58,9 @@
 	 </data>
     <data format="wig" name="np_wig" label="${tool.name} on ${on_string}: Nucleosome_Position_Prediction" >
 		<filter>types['format_type'] == "wig"</filter>
+	 </data>
+    <data format="binary" name="np_binary" label="${tool.name} on ${on_string}: Nucleosome_Position_Prediction" >
+		<filter>types['format_type'] == "binary"</filter>
 	 </data>
     <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: Log_File"/>
   </outputs>
